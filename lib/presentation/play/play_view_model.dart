@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image/image.dart' as lib;
+import 'package:pixel_match_web/core/logger.dart';
 import 'package:pixel_match_web/data/get_divisors.dart';
 import 'package:pixel_match_web/data/image_use_case.dart';
 
@@ -15,10 +16,14 @@ class PlayViewModel extends GetxController {
   late Future<lib.Image> image;
 
 
-  start() async {
-    image = ImageUseCase.getImageFrom();
-    pixelWidth = _initializeWidth(await image);
-    showPixels(pixelWidth);
+  @override
+  void onInit() {
+    super.onInit();
+    Future.microtask(() async {
+      image = ImageUseCase.getImageFrom();
+      pixelWidth = _initializeWidth(await image);
+      showPixels(pixelWidth);
+    });
   }
 
   int _initializeWidth(lib.Image image) {
@@ -31,7 +36,8 @@ class PlayViewModel extends GetxController {
     pixelWidth = selectedPixel - 1;
     colors = ImageUseCase.getPixelColors(await image, pixelWidth);
     pixelHeight = ImageUseCase.getHeight(await image, pixelWidth);
-    Future.delayed(const Duration(milliseconds: 300), () => update());
+    Log.i(pixelHeight);
+    Future.delayed(const Duration(milliseconds: 100), () => update());
   }
 
   bool hasNext() => _pixelIndex + 1 < _pixelWidthList.length;

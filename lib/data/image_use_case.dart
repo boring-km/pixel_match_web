@@ -1,18 +1,22 @@
-import 'dart:typed_data';
 import 'dart:ui';
 
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 
 import 'package:image/image.dart' as lib;
+import 'package:pixel_match_web/core/logger.dart';
 import 'package:pixel_match_web/ui/colors.dart';
+import 'package:http/http.dart' as http;
 
 class ImageUseCase {
 
   static Future<lib.Image> getImageFrom() async {
-    FilePickerResult? result = await FilePicker.platform.pickFiles(type: FileType.image);
-    Uint8List fileBytes = result?.files.first.bytes ?? Uint8List(0);
-    List<int> values = fileBytes.buffer.asUint8List();
+    final response = await http.get(Uri.parse('https://cache.wjthinkbig.com/TEST/WEBP/sample.WEBP'));
+    if (response.statusCode == 200) {
+      Log.d('정상');
+    } else {
+      Log.e('error: ${response.statusCode}');
+    }
+    List<int> values = response.bodyBytes.buffer.asUint8List();
     final lib.Image image = lib.decodeImage(values)!;
     return image;
   }
