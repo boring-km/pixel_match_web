@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image/image.dart' as lib;
-import 'package:pixel_match_web/core/logger.dart';
 import 'package:pixel_match_web/data/get_divisors.dart';
 import 'package:pixel_match_web/data/image_use_case.dart';
 
@@ -36,7 +35,6 @@ class PlayViewModel extends GetxController {
     pixelWidth = selectedPixel - 1;
     colors = ImageUseCase.getPixelColors(await image, pixelWidth);
     pixelHeight = ImageUseCase.getHeight(await image, pixelWidth);
-    Log.i(pixelHeight);
     Future.delayed(const Duration(milliseconds: 100), () => update());
   }
 
