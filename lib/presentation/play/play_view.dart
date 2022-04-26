@@ -19,9 +19,9 @@ class PlayView extends GetView<PlayViewModel> {
                 Align(
                   alignment: Alignment.topLeft,
                   child: ImagePainter(
-                    colors: controller.colors,
-                    xCount: controller.pixelWidth,
-                    yCount: controller.pixelHeight,
+                    colors: controller.state.colors,
+                    xCount: controller.state.width,
+                    yCount: controller.state.height,
                   ),
                 ),
                 Align(
@@ -30,7 +30,7 @@ class PlayView extends GetView<PlayViewModel> {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Padding(
-                        padding: const EdgeInsets.all(8.0),
+                        padding: const EdgeInsets.only(bottom: 16.0),
                         child: Column(
                           children: [
                             Container(
