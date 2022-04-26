@@ -4,14 +4,13 @@ import 'package:pixel_match_web/core/logger.dart';
 
 class ImageApi {
 
-  Future<lib.Image> getImageFrom() async {
-    final response = await get(Uri.parse('https://cache.wjthinkbig.com/TEST/WEBP/SAMPLE.WEBP'));
+  Future<lib.Image> getImageFrom(String url) async {
+    final response = await get(Uri.parse(url));
     if (response.statusCode != 200) {
       Log.e('error: ${response.statusCode}');
     }
 
     List<int> values = response.bodyBytes.buffer.asUint8List();
-    final lib.Image image = lib.decodeImage(values)!;
-    return image;
+    return lib.decodeImage(values)!;
   }
 }

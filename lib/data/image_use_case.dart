@@ -7,13 +7,14 @@ import 'package:pixel_match_web/data/image_api.dart';
 import 'package:pixel_match_web/domain/model/pixel_state.dart';
 import 'package:pixel_match_web/ui/colors.dart';
 
+
 class ImageUseCase {
 
   final ImageApi _imageApi;
   ImageUseCase(this._imageApi);
 
-  Future<lib.Image> getImageFrom() async {
-    return _imageApi.getImageFrom();
+  Future<lib.Image> getImageFrom(String url) async {
+    return _imageApi.getImageFrom(url);
   }
 
   PixelState getPixelInfo(lib.Image image, int width, int selectedPixel) {

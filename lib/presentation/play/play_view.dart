@@ -53,9 +53,10 @@ class PlayView extends GetView<PlayViewModel> {
                               ),
                               child: TextFormField(
                                 textAlign: TextAlign.center,
+                                controller: controller.answerController,
                                 decoration: const InputDecoration(
                                   border: UnderlineInputBorder(),
-                                  hintText: '팬텀',
+                                  hintText: '입력',
                                 ),
                               ),
                             ),
@@ -72,7 +73,7 @@ class PlayView extends GetView<PlayViewModel> {
                                   ),
                                 ),
                                 ElevatedButton(
-                                  onPressed: controller.showBefore,
+                                  onPressed: controller.check,
                                   style: ElevatedButton.styleFrom(primary: Colors.white),
                                   child: Text(
                                     '확인',

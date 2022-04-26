@@ -1,0 +1,24 @@
+{
+  "quizList": [
+    {
+      "imageUrl": "https://cache.wjthinkbig.com/TEST/WEBP/SAMPLE.WEBP",
+      "answer": "팬텀"
+    },
+    {
+      "imageUrl": "https://cache.wjthinkbig.com/TEST/WEBP/SAMPLE2.WEBP",
+      "answer": "푸린"
+    },
+    {
+      "imageUrl": "https://cache.wjthinkbig.com/TEST/WEBP/SAMPLE3.WEBP",
+      "answer": "리자몽"
+    },
+    {
+      "imageUrl": "https://cache.wjthinkbig.com/TEST/WEBP/SAMPLE4.WEBP",
+      "answer": "이브이"
+    },
+    {
+      "imageUrl": "https://cache.wjthinkbig.com/TEST/WEBP/SAMPLE5.WEBP",
+      "answer": "피카츄"
+    }
+  ]
+}
