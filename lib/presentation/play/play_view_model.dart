@@ -24,6 +24,7 @@ class PlayViewModel extends GetxController {
   @override
   void onInit() {
     super.onInit();
+
     Future.microtask(() async {
       _image = await imageUseCase.getImageFrom();
       _state = state.copyWith(
