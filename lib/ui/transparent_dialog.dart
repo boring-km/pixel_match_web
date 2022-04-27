@@ -6,7 +6,7 @@ void showTransparentDialog(BuildContext context, Widget child, {FutureOr Functio
   showGeneralDialog(
     context: context,
     barrierLabel: '',
-    barrierDismissible: true,
+    barrierDismissible: false,
     barrierColor: Colors.white.withOpacity(0),
     pageBuilder: (context, _, __) {
       return Material(

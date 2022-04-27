@@ -22,6 +22,10 @@ class PlayViewModel extends GetxController {
     answers: [],
   );
 
+  bool isCheck = false;
+
+  bool close = false;
+
   PixelState get state => _state;
 
   final ImageUseCase imageUseCase;
@@ -75,7 +79,11 @@ class PlayViewModel extends GetxController {
       };
 
   check(String input) {
+    if (isCheck) {
+      return null;
+    }
     return () {
+      isCheck = true;
       final isAnswer = input == state.quizList[_answerIndex]['answer'];
       if (isAnswer) {
         showTransparentDialog(
@@ -116,7 +124,7 @@ class PlayViewModel extends GetxController {
           ),
         );
       }
-      Future.delayed(const Duration(seconds: 2), () {
+      Future.delayed(const Duration(milliseconds: 1500), () {
         Navigator.pop(Get.context!);
       });
     };
