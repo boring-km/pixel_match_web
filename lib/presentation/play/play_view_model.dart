@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image/image.dart' as lib;
@@ -11,18 +10,17 @@ import 'package:pixel_match_web/ui/transparent_dialog.dart';
 
 class PlayViewModel extends GetxController {
   List<int> _pixelWidthList = <int>[];
-  List quizList = [];
   int _pixelIndex = 2;
   late lib.Image _image;
-  int index = 0;
+  int _answerIndex = 0;
 
   PixelState _state = const PixelState(
     width: 1,
     height: 1,
     colors: [],
+    quizList: [],
+    answers: [],
   );
-
-  var answerController = TextEditingController();
 
   PixelState get state => _state;
 
@@ -35,10 +33,11 @@ class PlayViewModel extends GetxController {
     super.onInit();
 
     Future.microtask(() async {
-      quizList = await QuizApi.getQuizData();
-      index = randomNumberFrom(quizList);
-      final url = quizList[index]['imageUrl'];
-      _image = await imageUseCase.getImageFrom(url);
+      var quizData = await QuizApi.getQuizData();
+      _state = state.copyWith(quizList: quizData, answers: _getAnswerList(quizData));
+
+      _answerIndex = randomNumberFrom(state.quizList);
+      _image = await imageUseCase.getImageFrom(state.quizList[_answerIndex]['imageUrl']);
       _state = state.copyWith(width: _initializeWidth());
       showPixels(_state.width);
     });
@@ -51,7 +50,7 @@ class PlayViewModel extends GetxController {
   }
 
   showPixels(int selectedPixel) async {
-    _state = imageUseCase.getPixelInfo(_image, _state.width, selectedPixel - 1);
+    _state = imageUseCase.getPixelInfo(_image, _state, selectedPixel - 1);
     Future.delayed(const Duration(milliseconds: 100), () => update());
   }
 
@@ -75,42 +74,59 @@ class PlayViewModel extends GetxController {
         }
       };
 
-  get check => () {
-        final input = answerController.text;
-        final isAnswer = input == quizList[index]['answer'];
-        if (isAnswer) {
-          showTransparentDialog(
-            Get.context!,
-            Center(
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: Container(
-                  width: 100,
-                  height: 100,
-                  color: Colors.white,
-                  child: const Center(child: Text('정답', style: TextStyle(fontSize: 20),)),
-                ),
+  check(String input) {
+    return () {
+      final isAnswer = input == state.quizList[_answerIndex]['answer'];
+      if (isAnswer) {
+        showTransparentDialog(
+          Get.context!,
+          Center(
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Container(
+                width: 100,
+                height: 100,
+                color: Colors.white,
+                child: const Center(
+                    child: Text(
+                  '정답',
+                  style: TextStyle(fontSize: 20),
+                )),
               ),
             ),
-          );
-        } else {
-          showTransparentDialog(
-            Get.context!,
-            Center(
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: Container(
-                  width: 100,
-                  height: 100,
-                  color: Colors.white,
-                  child: const Center(child: Text('오답', style: TextStyle(fontSize: 20),)),
-                ),
+          ),
+        );
+      } else {
+        showTransparentDialog(
+          Get.context!,
+          Center(
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Container(
+                width: 100,
+                height: 100,
+                color: Colors.white,
+                child: const Center(
+                    child: Text(
+                  '오답',
+                  style: TextStyle(fontSize: 20),
+                )),
               ),
             ),
-          );
-        }
-        Future.delayed(const Duration(seconds: 2), () {
-          Navigator.pop(Get.context!);
-        });
-      };
+          ),
+        );
+      }
+      Future.delayed(const Duration(seconds: 2), () {
+        Navigator.pop(Get.context!);
+      });
+    };
+  }
+
+  List<String> _getAnswerList(List<dynamic> quizList) {
+    List<String> answers = [];
+    for (var quiz in quizList) {
+      answers.add(quiz['answer']);
+    }
+    return answers;
+  }
 }

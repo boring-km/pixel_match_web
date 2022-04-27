@@ -11,6 +11,8 @@ class PlayView extends GetView<PlayViewModel> {
   Widget build(BuildContext context) {
     return GetBuilder<PlayViewModel>(
       builder: (controller) {
+        final state = controller.state;
+
         return Scaffold(
           body: Container(
             color: Colors.black,
@@ -19,9 +21,9 @@ class PlayView extends GetView<PlayViewModel> {
                 Align(
                   alignment: Alignment.topLeft,
                   child: ImagePainter(
-                    colors: controller.state.colors,
-                    xCount: controller.state.width,
-                    yCount: controller.state.height,
+                    colors: state.colors,
+                    xCount: state.width,
+                    yCount: state.height,
                   ),
                 ),
                 Align(
@@ -43,24 +45,33 @@ class PlayView extends GetView<PlayViewModel> {
                                 '이 포켓몬의 이름은 뭘까요?',
                               ),
                             ),
-                            const SizedBox(height: 8,),
-                            Container(
-                              padding: const EdgeInsets.only(bottom: 4.0),
-                              width: 150,
-                              decoration: const BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                              ),
-                              child: TextFormField(
-                                textAlign: TextAlign.center,
-                                controller: controller.answerController,
-                                decoration: const InputDecoration(
-                                  border: UnderlineInputBorder(),
-                                  hintText: '입력',
-                                ),
+                            const SizedBox(
+                              height: 8,
+                            ),
+                            SizedBox(
+                              height: 50,
+                              child: ListView.builder(
+                                shrinkWrap: true,
+                                scrollDirection: Axis.horizontal,
+                                itemCount: state.answers.length,
+                                itemBuilder: (context, index) {
+                                  return Padding(
+                                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                    child: ElevatedButton(
+                                      onPressed: controller.check(state.answers[index]),
+                                      style: ElevatedButton.styleFrom(primary: Colors.white),
+                                      child: Text(
+                                        state.answers[index],
+                                        style: const TextStyle(color: Colors.black),
+                                      ),
+                                    ),
+                                  );
+                                },
                               ),
                             ),
-                            const SizedBox(height: 8,),
+                            const SizedBox(
+                              height: 8,
+                            ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
@@ -69,14 +80,6 @@ class PlayView extends GetView<PlayViewModel> {
                                   style: ElevatedButton.styleFrom(primary: Colors.white),
                                   child: Text(
                                     controller.hasBeforeString(),
-                                    style: const TextStyle(color: Colors.black),
-                                  ),
-                                ),
-                                ElevatedButton(
-                                  onPressed: controller.check,
-                                  style: ElevatedButton.styleFrom(primary: Colors.white),
-                                  child: Text(
-                                    '확인',
                                     style: const TextStyle(color: Colors.black),
                                   ),
                                 ),

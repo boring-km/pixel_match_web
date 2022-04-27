@@ -17,8 +17,8 @@ class ImageUseCase {
     return _imageApi.getImageFrom(url);
   }
 
-  PixelState getPixelInfo(lib.Image image, int width, int selectedPixel) {
-    return PixelState(
+  PixelState getPixelInfo(lib.Image image, PixelState state, int selectedPixel) {
+    return state.copyWith(
       width: selectedPixel,
       height: _getHeight(image, selectedPixel),
       colors: _getPixelColors(image, selectedPixel),

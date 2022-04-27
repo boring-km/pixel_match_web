@@ -9,6 +9,8 @@ class PixelState with _$PixelState {
     required int width,
     required int height,
     required List<Color> colors,
+    required List<dynamic> quizList,
+    required List<String> answers,
   }) = _PixelState;
 
 }
