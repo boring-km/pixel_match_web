@@ -3,6 +3,9 @@
 - 웹에서 픽셀 이미지를 보면서 이게 무슨 그림인지 빨리 맞추는 게임
 - 기반 프로젝트: https://github.com/boring-km/color-from-image
 
+## Page Link
+- [https://boring-km.github.io/pixel_match_web](https://boring-km.github.io/pixel_match_web)
+
 ## 구현해야 할 기능들
 
 ### 이미지 관련
